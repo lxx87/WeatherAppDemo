@@ -11,6 +11,7 @@
             android:roundIcon="@mipmap/ic_launcher"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
+            android:name=".App"
             android:usesCleartextTraffic="true"><!--API27及以上默认禁止http协议-->
         <activity android:name="com.example.weatherapp.ui.activity.MainActivity">
             <intent-filter>

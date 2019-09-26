@@ -1,19 +1,17 @@
 package com.example.weatherapp.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.domain.Forecast
 import com.example.weatherapp.domain.ForecastList
+import com.example.weatherapp.extension.toDateString
 import com.squareup.picasso.Picasso
-import org.jetbrains.anko.find
+import kotlinx.android.synthetic.main.item_forecast.view.*
 
-class ForecastListAdapter(private val forecastList: ForecastList, private val itemClick: OnItemClickListener) :
+class ForecastListAdapter(private val forecastList: ForecastList, private val itemClick: (Forecast)->Unit) :
     RecyclerView.Adapter<ForecastListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,29 +26,20 @@ class ForecastListAdapter(private val forecastList: ForecastList, private val it
         holder.bindForecast(forecastList[position])
     }
 
-    class ViewHolder(private val view: View, val itemClick: OnItemClickListener) : RecyclerView.ViewHolder(view) {
-        private val iconView: ImageView = view.find(R.id.icon)
-        private val dateView: TextView = view.find(R.id.date)
-        private val descriptionView: TextView = view.find(R.id.description)
-        private val maxTemperatureView: TextView = view.find(R.id.maxTemperature)
-        private val minTemperatureView: TextView = view.find(R.id.minTemperature)
+    class ViewHolder(private val view: View, val itemClick: (Forecast)->Unit) : RecyclerView.ViewHolder(view) {
 
         fun bindForecast(forecast: Forecast) {
             with(forecast) {
-                Log.d("ForecastAdapter","bind ${forecast.date}")
-                Picasso.with(view.context).load(iconUrl).into(iconView)
-                dateView.text = date
-                descriptionView.text = description
-                maxTemperatureView.text = high.toString()
-                minTemperatureView.text = low.toString()
-                view.setOnClickListener { itemClick(forecast) }
+                Picasso.with(view.context).load(iconUrl).into(view.icon)
+                view.date.text=date.toLong().toDateString()
+                view.description.text=description
+                view.maxTemperature.text="$high°"
+                view.minTemperature.text="$low°"
+                view.setOnClickListener {itemClick(forecast)}
             }
         }
 
     }
 
-    public interface OnItemClickListener {
-        operator fun invoke(forecast: Forecast)
-    }
 }
 
