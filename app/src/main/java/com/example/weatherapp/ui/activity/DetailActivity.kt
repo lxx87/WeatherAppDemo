@@ -4,26 +4,33 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.weatherapp.R
 import com.example.weatherapp.domain.Forecast
 import com.example.weatherapp.domain.RequestDayForecastCommand
 import com.example.weatherapp.extension.toDateString
+import com.example.weatherapp.ui.toolbar.ToolbarManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.async
+import org.jetbrains.anko.find
 import org.jetbrains.anko.uiThread
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(),ToolbarManager {
     companion object {
         const val ID = "DetailActivity:id"
         const val CITY_NAME = "DetailActivity:cityName"
     }
 
+    override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        title = intent.getStringExtra(CITY_NAME)
+        initToolbar()
+        toolbarTitle=intent.getStringExtra(CITY_NAME)
+        enableHomeAsUp { onBackPressed() }
         async {
             val result = RequestDayForecastCommand(intent.getLongExtra(ID, -1)).execute()
             uiThread {
