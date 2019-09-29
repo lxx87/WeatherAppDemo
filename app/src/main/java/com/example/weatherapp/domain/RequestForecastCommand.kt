@@ -1,8 +1,6 @@
 package com.example.weatherapp.domain
 
 import com.example.weatherapp.domain.datasource.ForecastProvider
-import com.example.weatherapp.request.ForecastDataMapper
-import com.example.weatherapp.request.ForecastByZipCodeRequest
 
 class RequestForecastCommand(
     private val zipCode: String,

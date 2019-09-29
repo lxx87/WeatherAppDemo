@@ -8,7 +8,7 @@ class DataMapper {
         ForecastList(_id, city, country, dailyForecast.map { convertDayToDomain(it) })
     }
 
-    private fun convertDayToDomain(dayForecast: DayForecast) = with(dayForecast) {
+    fun convertDayToDomain(dayForecast: DayForecast) = with(dayForecast) {
         Forecast(_id,date.toString(), description, high, low, iconUrl)
     }
 

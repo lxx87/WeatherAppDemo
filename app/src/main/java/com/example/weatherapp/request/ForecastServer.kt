@@ -1,7 +1,7 @@
 package com.example.weatherapp.request
 
-import com.example.weatherapp.db.DataMapper
 import com.example.weatherapp.db.ForecastDb
+import com.example.weatherapp.domain.Forecast
 import com.example.weatherapp.domain.ForecastList
 import com.example.weatherapp.domain.datasource.ForecastDataSource
 
@@ -16,4 +16,6 @@ class ForecastServer(
         forecastDb.saveForecast(converted)
         return forecastDb.requestForecastByZipCode(zipCode, date)
     }
+
+    override fun requestDayForecast(id: Long): Forecast? =throw UnsupportedOperationException()
 }
